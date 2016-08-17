@@ -1,0 +1,17 @@
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+   <form method="POST" id="form" action="https://auth.robokassa.ru/Merchant/Index.aspx" target="_top">
+      <input type="hidden" name="MrchLogin" value="<%- login %>">
+      <input type="hidden" name="OutSum" value="<%- amount %>">
+      <input type="hidden" name="InvId" value="<%- transaction %>">
+      <input type="hidden" name="Desc" value="<%- description %>">
+      <input type="hidden" name="SignatureValue" value="<%- signature %>">
+      <!-- <input type="hidden" name="IsTest" value="1"> -->
+   </form>
+   <script type="text/javascript">
+   document.getElementById('form').submit();
+   </script>
+</html>
