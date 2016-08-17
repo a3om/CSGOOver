@@ -1,0 +1,750 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#">
+<head>
+	<title>CSGOOver.ru</title>
+	<META NAME="webmoney.attestation.label" CONTENT="webmoney attestation label#460522B7-E702-4439-A851-566AF4A81124" />
+	<meta content="/img/logo256.png" property="og:image">
+	<link rel="image_src" href="/img/logo256.png">
+	<style>
+	#loading
+	{
+		position: absolute;
+		display: table;
+		z-index: 200;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		width: 100%;
+		height: 100%;
+		background: #373737;
+		font-size: 26px;
+		color: #bcbcbc;
+		text-align: center;
+		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	}
+	#loading span
+	{
+		display: table-cell;
+		vertical-align: middle;
+	}
+	</style>
+	<script type="text/javascript">
+	<% if (user) { %>
+	var user =
+	{
+		steamId64: '<%= user.steamId64 %>',
+		secretKey: '<%= user.secretKey %>',
+	};
+	<% } else { %>
+	var user = null;
+	<% } %>
+	var environment = '<%- environment %>';
+	var notificate = <%- JSON.stringify(notificate) %>;
+	</script>
+</head>
+<body>
+	<div id="loading">
+		<span>Загрузка...</span>
+	</div>
+	<div id="ajaxLoader" style="display: none;">
+		<div class="loader">
+			<div class="cssload-loader"></div>
+		</div>
+	</div>
+	<div class="marketInstance modal" style="display: none;">
+		<div class="layer"></div>
+		<div class="wrapper">
+			<div class="container">
+				<div class="content">
+					<div class="title">Всего предложений: <span>10</span></div>
+					<div class="items"></div>
+					<div class="item template">
+						<img src="" alt="">
+						<div class="price">
+							<span>*</span> руб.
+						</div>
+						<div class="category" style="background: #ffd700;" title="Souvenir"></div>
+						<div class="quality" style="background: #b0c3d9;" title="Consumer Grade"></div>
+						<div class="stickers"></div>
+						<div class="buy">Купить</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="marketItem modal" style="display: none;">
+		<div class="layer"></div>
+		<div class="wrapper">
+			<div class="container">
+				<div class="content">
+					<div class="title">Выставление предмета на продажу</div>
+					<div class="body">
+						<div class="item">
+							<img src="" alt="">
+							<div class="category" style="background: #ffd700;" title="Souvenir"></div>
+							<div class="quality" style="background: #b0c3d9;" title="Consumer Grade"></div>
+							<div class="stickers"></div>
+							<div class="exterior"></div>
+							<div class="price">
+								<span>10</span> руб.
+							</div>
+							<div class="toInventory" title="Вернуть предмет в инвентарь">В инвентарь</div>
+						</div>
+						<div class="settings">
+							<div class="includingCommission price">
+								<input type="text" value="0"> р. - цена продажи
+							</div>
+							<div class="excludingCommission price">
+								<input type="text" value="0"> р. - Вы получите с учётом комиссии
+							</div>
+							<div class="recommendedPrice">
+								<span>123</span> р. - рекомендуемая цена продажи
+							</div>
+							<div class="save">
+								Выставить предмет на продажу
+							</div>
+						</div>
+						<div class="termsOfUse">Выставляя предмет на продажу,<br>Вы принимаете условия <a href="#">пользовательского соглашения</a>.</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="header" id="header" style="top: -49px; display: none;">
+		<div class="wrapper">
+			<a class="logo" href="#">
+				<img src="/img/logo.png" alt="">
+			</a>
+			<div class="market menu">
+				<a href="#">Купить предметы</a>
+				<a href="#market/sell">Продать предметы</a>
+				<a href="#">Как это работает</a>
+				<a href="#market/purchases">История покупок</a>
+				<a href="#market/sales">История продаж</a>
+			</div>
+			<div class="tape menu">
+				<a href="#tape">Играть</a>
+				<a href="#tape/top">Топ игроков</a>
+				<a href="#tape/history">История игр</a>
+				<a href="#tape/rules">Правила</a>
+				<a href="#tape/commission">Комиссия</a>
+			</div>
+			<div class="bonuses menu">
+				<a href="#">Купить предметы</a>
+				<a href="#">Продать предметы</a>
+				<a href="#">Как это работает</a>
+				<a href="#">История покупок</a>
+				<a href="#">История продаж</a>
+			</div>
+			<div class="profile" id="profile" href="/">
+				<div class="name"></div>
+				<div class="avatar">
+					<img src="" alt="">
+				</div>
+				<div class="balance"><span>100500.00</span> руб.</div>
+			</div>
+			<a class="login" id="loginLink">
+				<div class="icon">
+					<img src="/img/steam30.png" alt="">
+				</div>
+				<div class="title">Войти через Steam</div>
+			</a>
+		</div>
+	</div>
+	<div class="profileMenu" id="profileMenu">
+		<a id="changeTradeUrlLink">
+			<span>Изменить ссылку для обмена</span>
+			<img src="/img/tradeUrl46.png" alt="">
+		</a>
+		<a id="balanceIn">
+			<span>Пополнить счёт</span>
+			<img src="/img/addMoney46.png" alt="">
+		</a>
+		<a id="balanceOut">
+			<span>Вывести средства</span>
+			<img src="/img/cashOut46.png" alt="">
+		</a>
+		<a id="logoutLink">
+			<span>Выйти</span>
+			<img src="/img/logout46.png" alt="">
+		</a>
+	</div>
+	<div class="middle" id="middle" style="display: none;">
+		<div class="wrapper">
+			<div class="sidebar">
+				<div class="menu">
+					<a href="#">
+						<img src="/img/market48.png" alt="">
+					</a>
+					<a href="#tape">
+						<img src="/img/tape48.png" alt="">
+					</a>
+					<a href="#bonuses">
+						<img src="/img/bonuses48.png" alt="">
+					</a>
+				</div>
+				<div class="control">
+					<!-- <a href="#" class="arrow" title="Наверх">
+						<img src="/img/arrowUp.png" alt="">
+					</a> -->
+					<a class="arrow">
+						<img src="/img/arrowUp.png" alt="">
+					</a>
+				</div>
+			</div>
+			<div class="tradeURL" id="tradeURL">
+				<img src="/img/alert64.png" alt="" class="left">
+				<div class="text">Укажите ссылку для обмена! Узнать её можно по <a href="http://steamcommunity.com/id/id/tradeoffers/privacy#trade_offer_access_url" target="_blank">этой ссылке</a>.</div>
+				<input type="text" value=""><a class="save">Сохранить</a>
+				<img src="/img/alert64.png" alt="" class="right">
+			</div>
+			<div class="tradeURL change" id="changeTradeURL">
+				<div class="text">Редактирование ссылки для обмена. Узнать Вашу текущую ссылку можно по <a href="http://steamcommunity.com/id/id/tradeoffers/privacy#trade_offer_access_url" target="_blank">этой ссылке</a>.</div>
+				<input type="text" value=""><a class="save">Сохранить</a>
+			</div>
+			<div class="index page" id="indexPage">
+				Главная страница
+			</div>
+			<div class="tape page" id="tapePage">
+				<div class="side">
+					<div class="menu">
+						<a href="#tape" class="play">
+							<div class="state"></div>
+							<div class="icon">
+								<img src="/img/play48.png" alt="">
+							</div>
+							<div class="text">Играть</div>
+						</a>
+						<a href="#tape/top" class="top">
+							<div class="state"></div>
+							<div class="icon">
+								<img src="/img/top48.png" alt="">
+							</div>
+							<div class="text">Топ</div>
+						</a>
+						<a href="#tape/history" class="history">
+							<div class="state"></div>
+							<div class="icon">
+								<img src="/img/history48.png" alt="">
+							</div>
+							<div class="text">История</div>
+						</a>
+						<a href="#tape/rules" class="rules">
+							<div class="state"></div>
+							<div class="icon">
+								<img src="/img/rules48.png" alt="">
+							</div>
+							<div class="text">Правила</div>
+						</a>
+						<a href="#tape/commission" class="commission">
+							<div class="state"></div>
+							<div class="icon">
+								<img src="/img/commission48.png" alt="">
+							</div>
+							<div class="text">Комиссия</div>
+						</a>
+					</div>
+					<div class="lastWinner">
+						<div class="text">Последний победитель</div>
+						<div class="avatar">
+							<img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/47/47979ee4742060fad392057c6761b9a0c3cee7be_full.jpg" alt="">
+						</div>
+						<div class="name">Atom</div>
+						<div class="separator"></div>
+						<div class="information">
+							<div class="row">
+								<div class="name">Выигрыш</div>
+								<div class="value winSum">10.5 руб.</div>
+							</div>
+							<div class="row">
+								<div class="name">Шанс</div>
+								<div class="value chance">45.4%</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="content">
+					<div class="game">
+						<div class="title">
+							<div class="number">Игра №100500</div>
+							<div class="itemsCount">Всего предметов 10 / 100</div>
+							<div class="separator"></div>
+							<div class="state">
+								<div class="progress" style="width: 10%;"></div>
+							</div>
+						</div>
+						<div class="distance"></div>
+						<div class="information">
+							<div class="block">
+								<div class="text">Ваш шанс</div>
+								<div class="chance value">10%</div>
+							</div>
+							<div class="distance"></div>
+							<div class="block">
+								<div class="text">Вы вложили</div>
+								<div class="itemsCount value">10 / 10</div>
+							</div>
+							<div class="distance"></div>
+							<div class="block">
+								<div class="text">Выигрыш</div>
+								<div class="sum value">100000.00 руб.</div>
+							</div>
+							<div class="distance"></div>
+							<div class="block">
+								<div class="timerText text">До конца игры</div>
+								<div class="timer value">0:10</div>
+							</div>
+						</div>
+						<div class="distance"></div>
+						<div class="users"></div>
+						<div class="tape">
+							<div class="slider"></div>
+							<div class="arrow">
+								<div class="line"></div>
+								<div class="camber"></div>
+								<div class="pointer"></div>
+								<div class="second pointer"></div>
+								<div class="third pointer"></div>
+							</div>
+						</div>
+						<div class="distance"></div>
+						<div class="items"></div>
+						<div class="gameStarted">Игра началась! Выберите предметы и делайте ставку!</div>
+					</div>
+					<div class="history">
+						<div class="historyGames"></div>
+						<div class="historyGame template">
+							<div class="title">Игра №100500</div>
+							<div class="winner">
+								<div class="avatar">
+									<img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/47/47979ee4742060fad392057c6761b9a0c3cee7be_full.jpg" alt="">
+								</div>
+								<div class="information">
+									<div class="name">Atom MMMMMMMMMMM</div>
+									<div class="sum">Выигрыш: <span>100500.00</span> руб.</div>
+									<div class="chance">Шанс: <span>100</span>%</div>
+								</div>
+							</div>
+							<div class="users"></div>
+							<div class="user template">
+								<img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/47/47979ee4742060fad392057c6761b9a0c3cee7be_full.jpg" alt="">
+								<div class="chance"><span>100</span>%</div>
+							</div>
+							<div class="subtitle">Предметы игры</div>
+							<div class="items"></div>
+							<div class="item template">
+								<img src="" alt="">
+								<div class="category" style="background: #ffffff;" title="Normal"></div>
+								<div class="quality" style="background: #b0c3d9;" title="Base Grade"></div>
+								<div class="price">
+									<span>100.00</span> руб.
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="top">
+						<table>
+							<thead>
+								<tr>
+									<th colspan="3">Место</th>
+									<th>Количество побед</th>
+									<th>Всего выиграл</th>
+								</tr>
+							</thead>
+							<tbody class="topUsers"></tbody>
+							<tr class="topUser template">
+								<td class="position">1</td>
+								<td class="avatar">
+									<img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/47/47979ee4742060fad392057c6761b9a0c3cee7be_full.jpg" alt="">
+								</td>
+								<td class="name">Atom</td>
+								<td class="winsCount">10</td>
+								<td class="winSum"><span>10000</span> руб.</td>
+							</tr>
+						</table>
+					</div>
+					<div class="rules">
+						<ul>
+							<li>Комиссия нашей системы может колебаться от нуля до 10-ти процентов в зависимости от величины и условий выигрыша</li>
+							<li>Комиссия не взимается с победителя, если его шанс более чем 85%</li>
+							<li>Выдача выигрыша происходит мгновенно на <u>Промежуточный инвентарь</u> (не путайте со Steam-инвентарем)</li>
+							<li>Если Вы хотите поставить предметов больше, чем может вместить текущий раунд, или хотите поставить после окончания раунда, то предметы просто не примутся и останутся в <u>Промежуточном инвентаре</u></li>
+						</ul>
+					</div>
+					<div class="commission">
+						<a class="get">Получить комиссию (Предметов: <span>0</span>)</a>
+						<div class="items"></div>
+						<div class="item template">
+							<img src="" alt="">
+							<div class="category" style="background: #ffffff;" title="Normal"></div>
+							<div class="quality" style="background: #b0c3d9;" title="Base Grade"></div>
+							<div class="price">
+								<span>100.00</span> руб.
+							</div>
+						</div>
+						<div class="noItems">Предметов в комиссии нет</div>
+					</div>
+				</div>
+			</div>
+			<div class="market page" id="marketPage">
+				<div class="buy container">
+					<div class="side">
+						<form class="search">
+							<input type="text" placeholder="Поиск по названию">
+							<img src="/img/search32.png" alt="">
+						</form>
+						<div class="distance"></div>
+						<div class="price slider" data-from="0" data-to="2000">
+							<input type="text" value="" />
+						</div>
+						<div class="distance"></div>
+						<div class="quality filter" data-value="">
+							<div class="title">Уникальность<span>Любая</span></div>
+							<ul class="list">
+								<li data-value="" class="selected">Любая</li>
+								<li data-value="Consumer Grade" style="color: rgb(90, 126, 168);">Ширпотреб</li>
+								<li data-value="Mil-Spec Grade" style="color: rgb(75, 105, 255);">Армейское качество</li>
+								<li data-value="Industrial Grade" style="color: rgb(94, 152, 217);">Промышленное качество</li>
+								<li data-value="Restricted" style="color: rgb(136, 71, 255);">Запрещенное</li>
+								<li data-value="Classified" style="color: rgb(211, 44, 230);">Засекреченное</li>
+								<li data-value="Covert" style="color: rgb(235, 75, 75);">Тайное</li>
+								<li data-value="Base Grade" style="color: rgb(90, 126, 168);">Базового класса</li>
+								<li data-value="High Grade" style="color: rgb(75, 105, 255);">Высшего класса</li>
+								<li data-value="Exotic" style="color: rgb(211, 44, 230);">Экзотичного вида</li>
+								<li data-value="Remarkable" style="color: rgb(136, 71, 255);">Примечательного типа</li>
+								<li data-value="Contraband" style="color: rgb(228, 174, 57);">Контрабанда</li>
+							</ul>
+						</div>
+						<div class="distance"></div>
+						<div class="exterior filter" data-value="">
+							<div class="title">Качество<span>Любое</span></div>
+							<ul class="list">
+								<li data-value="" class="selected">Любое</li>
+								<li data-value="Field-Tested">После полевых испытаний</li>
+								<li data-value="Minimal Wear">Немного поношенное</li>
+								<li data-value="Battle-Scarred">Закаленное в боях</li>
+								<li data-value="Well-Worn">Поношенное</li>
+								<li data-value="Factory New">Прямо с завода</li>
+								<li data-value="Not Painted">Не покрашено</li>
+							</ul>
+						</div>
+						<div class="distance"></div>
+						<div class="category filter" data-value="">
+							<div class="title">Категория<span>Любая</span></div>
+							<ul class="list">
+								<li data-value="" class="selected">Любая</li>
+								<li data-value="Normal" style="color: rgb(100, 100, 100);">Обычный</li>
+								<li data-value="StatTrak™" style="color: rgb(207, 106, 50);">StatTrak™</li>
+								<li data-value="Souvenir" style="color: rgb(200, 169, 0);">Сувенирный</li>
+								<li data-value="★" style="color: rgb(134, 80, 172);">★</li>
+								<li data-value="★ StatTrak™" style="color: rgb(134, 80, 172);">★ StatTrak™</li>
+							</ul>
+						</div>
+						<div class="distance"></div>
+						<div class="type filter" data-value="">
+							<div class="title">Тип<span>Любой</span></div>
+							<ul class="list">
+								<li data-value="" class="selected">Любой</li>
+								<li data-value="Pistol">Пистолет</li>
+								<li data-value="SMG">Пистолет-пулемёт</li>
+								<li data-value="Rifle">Винтовка</li>
+								<li data-value="Sniper Rifle">Снайперская винтовка</li>
+								<li data-value="Shotgun">Дробовик</li>
+								<li data-value="Machinegun">Пулемёт</li>
+								<li data-value="Knife">Нож</li>
+								<li data-value="Container">Контейнер</li>
+								<li data-value="Sticker">Наклейка</li>
+								<li data-value="Music Kit">Набор музыки</li>
+								<li data-value="Key">Ключ</li>
+								<li data-value="Pass">Пропуск</li>
+								<li data-value="Gift">Подарок</li>
+								<li data-value="Tag">Ярлык</li>
+								<li data-value="Tool">Инструмент</li>
+							</ul>
+						</div>
+					</div>
+					<div class="content">
+						<div class="notLoggedIn information">Войдите через Steam, чтобы получить возможность покупать и продавать предметы!</div>
+						<div class="control">
+							Сортировать по:
+							<div class="sorter" data-value="salesCount">
+								<span class="selected" data-value="salesCount">популярности</span>
+								<span data-value="price">цене</span>
+								<span data-value="name">названию</span>
+								<span data-value="count">количеству</span>
+							</div>
+							<a class="refresh">
+								<img src="/img/refresh48.png" alt="">
+							</a>
+						</div>
+						<div class="distance"></div>
+						<div class="notFoundInstances">Не найдено ни одного предмета по Вашему запросу</div>
+						<div class="instances"></div>
+						<div class="instance template">
+							<img src="" alt="">
+							<div class="category" style="background: #4b69ff;" title="High Grade"></div>
+							<div class="quality" style="background: #4b69ff;" title="High Grade"></div>
+							<div class="price"><span>100.00</span> руб.</div>
+						</div>
+						<div class="paginator">
+							<div class="distance"></div>
+							<div class="left button">← Предыдущая страница</div>
+							<div class="information">
+								<form class="currentPage">
+									<input type="text" value="1">
+								</form>
+								<div class="totalPages">из <span>10</span></div>
+							</div>
+							<div class="right button">Следующая страница →</div>
+						</div>
+					</div>
+				</div>
+				<div class="purchases container">
+					<div class="noItems">Вы пока не совершали покупок на <b>Торговой площадке</b>.<br><br>Перейдите во вкладку <a href="#">Купить предметы</a>, выберите подходящий предмет и нажмите "Купить".</div>
+					<div class="items"></div>
+					<div class="item template">
+						<img src="" alt="">
+						<div class="category" style="background: #ffd700;" title="Souvenir"></div>
+						<div class="quality" style="background: #b0c3d9;" title="Consumer Grade"></div>
+						<div class="stickers"></div>
+						<div class="exterior"></div>
+						<div class="price"></div>
+						<div class="date" title="Вернуть предмет в инвентарь">10.07.2015</div>
+					</div>
+				</div>
+				<div class="sell container">
+					<div class="noItems">Нет ни одного предмета на <b>Торговой площадке</b>.<br><br>Чтобы выставить предметы на продажу, выберите их из своего <b>Инвентаря</b> и переместите на <b>Торговую площадку</b>.</div>
+					<div class="items"></div>
+					<div class="item template">
+						<img src="" alt="">
+						<div class="category" style="background: #ffd700;" title="Souvenir"></div>
+						<div class="quality" style="background: #b0c3d9;" title="Consumer Grade"></div>
+						<div class="stickers"></div>
+						<div class="exterior"></div>
+						<div class="price"></div>
+						<div class="toInventory" title="Вернуть предмет в инвентарь">В инвентарь</div>
+					</div>
+				</div>
+				<div class="sales container">
+					<div class="noItems">Вы пока не продали ни один предмет на <b>Торговой площадке</b>.<br><br>Чтобы выставить предметы на продажу, выберите их из своего <b>Инвентаря</b> и переместите на <b>Торговую площадку</b>.</div>
+					<div class="items"></div>
+					<div class="item template">
+						<img src="" alt="">
+						<div class="category" style="background: #ffd700;" title="Souvenir"></div>
+						<div class="quality" style="background: #b0c3d9;" title="Consumer Grade"></div>
+						<div class="stickers"></div>
+						<div class="exterior"></div>
+						<div class="price"></div>
+						<div class="date" title="Вернуть предмет в инвентарь">10.07.2015</div>
+					</div>
+				</div>
+				<div class="information container">
+					<h1>Покупка предмета</h2>
+					Чтобы купить желаемый предмет, Вам необходимо выполнить несколько следующих действий.
+					<br><br>
+					<ul>
+						<li>Пополнить баланс на нашем сайте через платежную систему WebMoney</li>
+						<li>Кликнуть по нужному предмету. После этого откроется окно предложений по данному предмету.</li>
+						<li>Выбрать наиболее подходящее предложение и нажать "Купить".</li>
+					</ul>
+					<br>
+					После этого предмет <u>сразу же</u> появится у Вас в <u>Промежуточном инвентаре</u>, а с Вашего баланса спишется сумма, за которую предмет был куплен.
+					<br><br>
+					<h1>Выставление предмета на продажу</h2>
+					Чтобы выставить желаемый предмет на продажу, Вам необходимо выполнить несколько следующих действий.
+					<br><br>
+					<ul>
+						<li>Выбрать нужные предметы из <u>Промежуточного инвентаря</u> и переместить их на <a href="#" class="market">торговую площадку</a>.</li>
+						<li>Установить каждому предмету цену, которую Вы хотите получить за продажу предмета.</li>
+						<li>Подтвердить введенные данные и выставить предмет на продажу.</li>
+					</ul>
+					<br>
+					После этого предмет станет доступным для покупки другим пользователям нашего сайта.
+					Стоит отметить, что купить собственный предмет у Вас не получится.
+					После покупки предмета другим пользователем, Ваш баланс сразу же будет пополнен на сумму, за которую предмет был продан, а предмет исчезнет из Вашего <u>Промежуточного инвентаря</u>.
+					<br><br>
+					<h1>Снятие предмета с продажи</h2>
+					Чтобы снять предмет с продажи, Вам необходимо выбрать выставленный на продажу предмет и нажать "Вернуть". После этого предмет будет снят с продажи и разблокируется в Вашем <u>Промежуточном инвентаре</u>.
+				</div>
+			</div>
+			<div class="information page" id="informationPage">
+				<h1>Что представляет собой наш проект?</h1>
+				Наш проект предоставляет собой множество <u>сервисов</u> по работе с предметами из игры <u>Counter-Strike: Global Offensive</u>.
+				<br>
+				Мы работаем с площадкой <a href="http://steamcommunity.com/" title="Откроется в новом окне">Steam</a>, через которую и осуществляем все операции с предметами.
+				<br><br>
+				На данный момент в состав наших <u>Сервисов</u> входят: <a href="#" class="market">Торговая площадка</a>, <a href="#tape" class="tape">Рулетка</a>.
+				<br><br>
+				<h1>Как работает наша система?</h1>
+				Вы авторизируетесь на нашем сайте через <a href="http://steamcommunity.com/" title="Откроется в новом окне">Steam</a> и получаете доступ к <u>Промежуточному инвентарю</u>.
+				<br><br>
+				<div class="description">
+					<u>Промежуточный инвентарь</u> - это Ваш личный инвентарь на нашем сайте, который условно находится между сервисами нашей системы и Вашим Steam-инвентарем. Он всегда располагается в нижней части сайта и будет доступен после авторизации на нашем сайте.
+					<br><br>
+					<u>Промежуточный инвентарь</u> нужен для того, чтобы Вы могли переместить в него предметы из своего Steam-инвентаря и в дальнейшем работать с этими предметами внутри нашего сайта без взаимодействия со своим Steam-инвентарем. После того, как Вы закончили работать с предметами внутри нашего сайта, Вы можете вывести предметы обратно на свой Steam-инвентарь из <u>Промежуточного инвентаря</u>. Ограничение на количество предметов, которые может вместить в себя <u>промежуточный инвентарь</u> равно 32. Подробнее познакомиться с механизмом работы <u>промежуточного инвентаря</u> можно на практике.
+				</div>
+				<br><br>
+				После того, как предметы попали в <u>Промежуточный инвентарь</u>, Вы можете работать с ними в наших сервисах. Для этого необходимо выделить нужные Вам предметы и переместить их в сервис.<br>Более конкретную информацию по работе с тем или иным сервисом Вы можете найти на странице самого сервиса (<a href="#" class="market">Торговая площадка</a>, <a href="#tape" class="tape">Рулетка</a>).
+				<br><br>
+				<div class="description">
+					Если <u>Промежуточный инвентарь</u> по какой-то причине переполнился (в нем больше, чем 32 предмета), Вы не сможете перемещать предметы в наши сервисы, поэтому Вам будет необходимо вывести часть предметов на свой Steam-инвентарь, чтобы продолжить работу с нашими сервисами.
+				</div>
+				<br><br>
+				<h1>Контактная информация</h1>
+				E-mail: support@csgoover.ru
+				<br>
+				Группа ВКонтакте: <a href="https://vk.com/csgoover" target="_blank">vk.com/csgoover</a>
+				<br>
+				WMID: 362343713714
+			</div>
+			<div class="balance page" id="balancePage">
+				<div class="in container">balance in</div>
+				<div class="out container">balance out</div>
+			</div>
+			<div class="footer" id="footer">
+				<div class="information">
+					<div class="block">
+						<div class="title">Информация</div>
+						<div class="links">
+							<a href="#">О проекте</a>
+							<a href="#">Пользовательское соглашение</a>
+							<a href="#">Контакты</a>
+						</div>
+					</div>
+					<div class="block">
+						<div class="title">Помощь</div>
+						<div class="links">
+							<a href="#">Часто задаваемые вопросы</a>
+							<a href="#">Техническая поддержка</a>
+						</div>
+					</div>
+					<div class="paymentMethods block">
+						<div class="title">Мы принимаем</div>
+						<div class="icons">
+							<img src="/img/yandexMoney.png" alt="">
+							<img src="/img/qiwi.png" alt="">
+							<img src="/img/webMoney.png" alt="">
+							<img src="/img/sberbank.png" alt="">
+							<img src="/img/alphabank.png" alt="">
+							<img src="/img/visaMasterCard.png" alt="">
+						</div>
+					</div>
+				</div>
+				<div class="copyright">
+					<img src="/img/vkontakte.png" alt="" class="vkontakte">
+					<!--LiveInternet counter--><script type="text/javascript"><!--
+					document.write('<a href="//www.liveinternet.ru/click" ' +
+					'target="_blank" class="liveinternet"><img src="//counter.yadro.ru/hit?t14.6;r' +
+					escape(document.referrer)+((typeof(screen)=='undefined')?'':
+					';s'+screen.width+'*'+screen.height+'*'+(screen.colorDepth?
+					screen.colorDepth:screen.pixelDepth))+';u'+escape(document.URL)+
+					';'+Math.random()+
+					'" alt="" title="LiveInternet: показано число просмотров за 24'+
+					' часа, посетителей за 24 часа и за сегодня" '+
+					'border="0" width="85" height="30"><\/a>')
+					//--></script><!--/LiveInternet-->
+					<img src="/img/attestedWebMoney.png" alt="" class="attestedWebMoney">
+					<span>CSGOOVER.ru &copy; 2016</span>
+				</div>
+				<!-- <div class="menu">
+					<a href="#information">О проекте</a>
+					<span class="market">
+						<a href="#market/information">Как работает торговая площадка</a>
+					</span>
+				</div>
+				<div class="copyright">CSGOOver.ru © 2016</div>
+				<div class="banners">
+					<a href="https://vk.com/csgoover" target="_blank">
+						<img src="/img/vk32.png" alt="">
+					</a>
+					<a href="http://www.megastock.ru/" target="_blank" title="www.megastock.ru">
+						<img src="/img/acceptWebMoney.png" alt="">
+					</a>
+					<a href="https://passport.webmoney.ru/asp/certview.asp?wmid=362343713714" target="_blank">
+						<img src="/img/attestedWebMoney.png" alt="Проверить аттестат">
+					</a>
+				</div> -->
+			</div>
+		</div>
+	</div>
+	<div class="inventory" id="inventory" style="bottom: -141px; display: none;">
+		<div class="control">
+			<div class="wrapper">
+				<a class="makeInboundTransfer button" href="/makeInboundTransfer" target="_blank" title="Внести предметы из Вашего инвентаря Steam в инвентарь на нашем сайте">
+					<span>Внести предметы</span>
+					<!-- <img src="/img/addItems48.png" alt=""> -->
+				</a>
+				<div class="status">
+					<div class="informationButton">
+						<img src="/img/information48.png" alt="">
+						<div class="information">
+							<div class="text">
+								Это Промежуточный инвентарь. Он нужен для того, чтобы Вы без лишних действий внесли в него предметы из своего Steam-инвентаря и начали работать с этими предметами внутри нашего сайта. Если Вы закончили работу с своими предметами на нашем сайте, Вы можете вывести свои предметы из Промежуточного инвентарь на свой Steam-инвентарь. Таким образом, работать с предметами становится довольно просто.
+								<br><br>
+								Вы можете поместить в Промежуточный инвентарь до 32-х предметов. Если вдруг случилось так, что в Промежуточном инвентаре находится больше 32-х предметов, наши сервисы откажутся принимать Ваши предметы до тех пор, пока Вы не выведите лишние предметы из Промежуточного инвентаря на Ваш Steam-инвентарь.
+								<br><br>
+								Чтобы внести предметы в Промежуточный инвентарь, нажмите кнопку "Внести предметы", создайте предложение обмена в Steam, подтвердите его, и через небольшое время предметы окажутся у Вас здесь - в Промежуточном инвентаре.
+								<br><br>
+								Чтобы вывести предметы из Промежуточного инвентаря на Ваш Steam-инвентарь, просто выделите нужные предметы и нажмите  кнопку "Вывести". Через некоторое время (обычно около минуты, но может быть и до пяти минут) Вы получите предложение обмена от одного из наших ботов. Подтвердив его, Вы увидите Ваши предметы у себя в Steam-инвентаре.
+								<br><br>
+								Чтобы переместить предметы в один из наших сервисов, достаточно перейти на страницу сервиса, выделить нужные предметы и нажать кнопку "Переместить в..."
+							</div>
+							<div class="arrow"></div>
+							<div class="space"></div>
+						</div>
+					</div>
+					<span>Инвентарь (0 из 0)</span>
+					<div class="orderButton">
+						<img src="/img/order48.png" alt="">
+						<div class="order">
+							<a data-order="index">Сортировать по <b>времени прихода</b></a>
+							<a data-order="price">Сортировать по <b>цене</b></a>
+							<a data-order="qualityIndex">Сортировать по <b>качеству</b></a>
+							<a data-order="collection">Сортировать по <b>коллекции</b></a>
+							<div class="arrow"></div>
+							<div class="space"></div>
+						</div>
+					</div>
+				</div>
+				<a class="moveToZone button">
+					<span class="text">Переместить</span> <span class="count">(0 из 0)</span>
+				</a>
+				<a class="selectAll button" title="Выделить все предметы/Снять выделение">
+					<img src="/img/selectAll48.png" alt="">
+				</a>
+				<a class="cancel button">Отмена</a>
+				<a class="confirmOutboundTransfer button">
+					<span>Вывести предметы</span>
+				</a>
+				<a class="makeOutboundTransfer button" title="Вывести предметы в инвентарь Steam">
+					<span>Вывести предметы</span>
+				</a>
+				<div class="outboundTransfer">
+					<div class="waitingOutboundTransfer">Ожидайте...</div>
+					<a class="acceptOutboundTransfer button" target="_blank">Принять предметы</a>
+				</div>
+			</div>
+		</div>
+		<div class="separator"></div>
+		<div class="body">
+			<div class="items"></div>
+		</div>
+	</div>
+	<link rel="stylesheet" href="/css/main.css">
+	<link rel="stylesheet" href="/css/animate.css">
+	<link rel="stylesheet" href="/css/noty.css">
+	<link rel="stylesheet" href="/css/ion.rangeSlider.css">
+	<link rel="stylesheet" href="/css/ion.rangeSlider.skinFlat.css">
+	<link rel="stylesheet" href="/jquery/jquery-ui.min.css">
+	<link rel="stylesheet" href="/css/loader.css">
+	<script type="text/javascript" src="/jquery/jquery-2.1.3.min.js"></script>
+	<script type="text/javascript" src="/jquery/jquery.mousewheel.js"></script>
+	<script type="text/javascript" src="/jquery/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/js/noty/packaged/jquery.noty.packaged.min.js"></script>
+	<script type="text/javascript" src="/js/ion-rangeSlider/ion.rangeSlider.min.js"></script>
+	<script type="text/javascript" src="/js/socket.io-1.3.5.js"></script>
+	<script type="text/javascript" src="/js/date.js"></script>
+	<script type="text/javascript" src="/js/main.js"></script>
+</body>
+</html>

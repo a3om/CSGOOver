@@ -1,0 +1,14 @@
+<html>
+<head></head>
+<body>
+	<script>
+	<% if (event == 'cannotGetBot') { %>
+	window.opener.noty(
+	{
+		text: '<div>Не удалось получить информацию о ботах, попробуйте ещё раз позднее (<%- error %>)</div>',
+		type: 'error',
+	});
+	<% } %>
+	window.close();
+	</script>
+</body>

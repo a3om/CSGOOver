@@ -1,0 +1,57 @@
+{
+	"express":
+	{
+		"port": 2999
+	},
+
+	"socket":
+	{
+		"port": 8080
+	},
+
+	"database":
+	{
+		"host": "localhost",
+		"port": 27017,
+		"name": "service"
+	},
+
+	"controller":
+	{
+		"host": "localhost",
+		"port": 1318,
+		"expressPort": 3006,
+		"password": "someLittleSecret"
+	},
+
+	"qiwi":
+	{
+		"id": 391647,
+
+		"API":
+		{
+			"id": 39323844,
+			"password": "someLittleSecret"
+		},
+
+		"notificationPassword": "someLittleSecret"
+	},
+
+	"WebMoney":
+	{
+		"WMID": "someLittleSecret",
+		"WMR": "someLittleSecret",
+		"secretKey": "someLittleSecret"
+	},
+
+	"RoboKassa":
+	{
+		"login": "csgoover.ru",
+		"password1": "someLittleSecret",
+		"password2": "someLittleSecret"
+	},
+
+	"APIKey": "someLittleSecret",
+	"host": "csgoover.dev",
+	"environment": "development"
+}
