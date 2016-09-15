@@ -16,3 +16,5 @@ Used skills:
 - Steam API
 - Nginx
 - Unix
+- EJS template
+- Socket.io
