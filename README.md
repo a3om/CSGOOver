@@ -1,3 +1,18 @@
 # CSGOOver
 
-Система управления предметами пользователей Steam. В разработке использовались Express, Socket.io, MongoDB. Создание клиентской части по технологии SPA, вёрстка и разработка дизайна. Работа над взаимодействием с игровой площадкой Steam, создание ботов. Разработка небольшой ORM. Использование OAuth для авторизации пользователей Steam. Установка и настройка Nginx в связке с Node.js.
+It's a system for exchange items between Steam users. Using Node.js as Back-End, Socket.io for real-time, Express and EJS template for site pages. The data is stored by MongoDB. There's also a small convenient ORM for work with MongoDB. Steam users is authorized through OAuth. Configuring Nginx for work with Node.js.
+
+Used skills:
+- Node.js
+- JavaScript
+- Single Page Application
+- Ajax
+- jQuery
+- HTML
+- CSS, LESS
+- OAuth
+- ORM
+- MondoDB
+- Steam API
+- Nginx
+- Unix
